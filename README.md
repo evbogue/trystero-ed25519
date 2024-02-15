@@ -12,5 +12,9 @@ This app is just a website, but we ship with a built-in Deno file server:
 deno run --allow-all serve.js
 ```
 
+or try it online! https://trystero-ed25519.deno.dev/
+
+Trystero will actually sync your messages between the website your local with no additional configuration.
+
 ---
 MIT
