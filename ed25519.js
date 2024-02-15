@@ -56,6 +56,7 @@ ed25519.open = async (signed) => {
   )
 
   const obj = {
+    hash: encode(Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(signed))))),
     author: signed.substring(0, 44),
     timestamp: new Number(opened.substring(0, 13)),
     text: opened.substring(13),
