@@ -77,7 +77,7 @@ const render = async (msg) => {
   return div
 }
 
-const input = h('input')
+const input = h('input', {placeholder: 'What\'s your status?'})
 
 const sendbutton = h('button', {onclick: async () => {
   if (input.value) {
