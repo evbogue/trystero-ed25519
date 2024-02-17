@@ -23,7 +23,6 @@ if (!stat) {
 }
 
 const avatar = async (id) => {
-  console.log(id)
   const link = h('a', {href: '#'}, [id.substring(0, 7) + '...'])
 
   const getInfo = await cachekv.get(id)
@@ -55,7 +54,7 @@ const avatar = async (id) => {
   }}, ['Edit name'])
 
 
-  if (id === pubkey) 
+  if (id === pubkey)
     link.after(edit)
 
   return span
@@ -148,7 +147,8 @@ trystero.onmessage(async (data, id) => {
       }, 10000)
 
       const got = document.getElementById(id)
-      got.remove()
+      if (got)
+        got.remove()
       const contact = h('div', {classList: 'message', id: id}, [
         timestamp,
         await avatar(opened.author),
@@ -161,8 +161,8 @@ trystero.onmessage(async (data, id) => {
 })
 
 trystero.join(id => {
-  const contact = h('div', {classList: 'message', id: id}, [id])
-  contacts.appendChild(contact)
+  //const contact = h('div', {classList: 'message', id: id}, [id])
+  //contacts.appendChild(contact)
   const obj = {type: 'latest'}
   if (stat.latest) {
     obj.payload = stat.latest
