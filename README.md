@@ -14,7 +14,7 @@ deno run --allow-all serve.js
 
 or try it online! https://trystero-ed25519.deno.dev/
 
-Trystero will actually sync your messages between the website your local with no additional configuration.
+Trystero will actually sync your messages between the website and your localhost with no additional configuration.
 
 ---
 MIT
