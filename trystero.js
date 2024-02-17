@@ -12,4 +12,8 @@ trystero.connect = (config) => {
   trystero.send = send
 
   trystero.onmessage = onmessage
+
+  trystero.join = room.onPeerJoin
+
+  trystero.leave = room.onPeerLeave
 }

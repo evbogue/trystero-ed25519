@@ -1,0 +1,58 @@
+body {
+  font-family: sans-serif;
+  background: #fafafa;
+  color: #222;
+}
+
+input { width: 90%;}
+
+#scroller {
+  width: 66%;
+  float: right;
+}
+
+#contacts {
+  width: 33%;
+  position: fixed;
+}
+
+#screen {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+
+.message {
+  background: white;
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px solid #efefef;
+}
+
+.message, .message > * {
+  animation: fadein .5s;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+pre, code {
+  overflow: auto;
+  word-break: break-all;
+  word-wrap: break-word;
+  white-space: pre;
+  white-space: -moz-pre-wrap;
+  white-space: pre-wrap;
+  white-space: pre\9;
+  margin: 0;
+}
+
+div {margin: 2px;}
+
+p, div {
+  word-wrap: break-word;
+}
