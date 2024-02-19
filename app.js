@@ -77,6 +77,13 @@ const render = async (msg) => {
   return div
 }
 
+let defaultMessage = {author: pubkey, text: 'Hello world!', timestamp: Date.now()}
+console.log(stat.latest)
+
+const openedLatest = await ed25519.open(stat.latest) || defaultMessage
+
+const currentStatus = await render(openedLatest)
+
 const input = h('input', {placeholder: 'What\'s your status?'})
 
 const sendbutton = h('button', {onclick: async () => {
@@ -86,6 +93,7 @@ const sendbutton = h('button', {onclick: async () => {
     stat.latest = signed
     await cachekv.put(pubkey, JSON.stringify(stat))
     const opened = await ed25519.open(signed)
+    currentStatus.replaceWith(await render(opened))
     topp.after(await render(opened))
     log.add(signed)
     input.value = ''
@@ -101,9 +109,8 @@ document.body.appendChild(screen)
 screen.appendChild(scroller)
 screen.appendChild(contacts)
 scroller.appendChild(topp)
-
 const composer = h('div', {classList: 'message'}, [
-  h('div', [await avatar(pubkey)]),
+  currentStatus,
   input,
   h('br'),
   sendbutton
