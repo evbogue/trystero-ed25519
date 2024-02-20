@@ -2,10 +2,45 @@ import { h } from './lib/h.js'
 import { cachekv } from './lib/cachekv.js'
 import { stat } from './latest.js'
 import { ed25519 } from './ed25519.js'
+import { vb } from './lib/vb.js'
+import { decode } from './lib/base64.js'
+import { trystero } from './trystero.js'
 
 const pubkey = await ed25519.pubkey()
 
 export const avatar = async (id) => {
+  const uploadButton = h('button', {
+    onclick: () => {
+      input.click()
+    }
+  }, ['📸  Profile Photo'])
+
+  const input = h('input', { 
+    type: 'file', style: 'display: none;', onchange: (e) => {
+      const file = e.srcElement.files[0]
+      const reader = new FileReader()
+      reader.onloadend = async () => {
+        img.src = reader.result
+        const imagesOnScreen = document.querySelectorAll('img#image' + id.substring(0, 10))
+          for (const image of imagesOnScreen) {
+            image.src = img.src
+          }
+        stat.image = img.src 
+        stat.type = 'latest'
+        stat.payload = stat.latest
+        console.log(stat)
+        trystero.send(stat)
+        await cachekv.put(pubkey, JSON.stringify(stat))      
+      }
+      reader.readAsDataURL(file)
+  }})
+
+  const img = vb(decode(id), 256) 
+
+
+  img.classList = 'avatar'
+  img.id = 'image' + id.substring(0, 10)
+
   const link = h('a', {href: '#', id: 'name' + id.substring(0, 10)}, [id.substring(0, 7) + '...'])
 
   const getInfo = await cachekv.get(id)
@@ -19,7 +54,19 @@ export const avatar = async (id) => {
     link.textContent = latest.name
   }
 
-  const span = h('span', [link])
+  if (latest.image) {
+    img.src = latest.image
+  }
+
+  const space = h('span', [' '])
+  const spacetwo = h('span', [' '])
+
+  const span = h('span', [
+    img,
+    ' ',
+    link,
+    space
+  ])
 
   const edit = h('button', {onclick: () => {
     const input = h('input', {style: 'width: 125px;', placeholder: id.substring(0, 7) + '...' || stat.name })
@@ -30,6 +77,9 @@ export const avatar = async (id) => {
           stat.name = input.value
           link.textContent = input.value
           await cachekv.put(pubkey, JSON.stringify(stat))
+          stat.type = 'latest'
+          stat.payload = stat.latest
+          trystero.send(stat)
           const namesOnScreen = document.querySelectorAll('a#name' + id.substring(0, 10))
           for (const names of namesOnScreen) {
             names.textContent = input.value
@@ -42,8 +92,12 @@ export const avatar = async (id) => {
   }}, ['Edit name'])
 
 
-  if (id === pubkey)
-    link.after(edit)
+  if (id === pubkey) {
+    space.after(input)
+    space.after(uploadButton)
+    space.after(spacetwo)
+    space.after(edit)
+  }
 
   return span
 }

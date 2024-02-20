@@ -8,6 +8,8 @@ input { width: 90%; padding: 5px; background: #fafafa; border: none;}
 
 button { border: none; color: #333; border-radius: 5px; padding: 5px;}
 
+.avatar { width: 22px; vertical-align: middle; border-radius: 5px;}
+
 #scroller {
   width: 66%;
   float: right;

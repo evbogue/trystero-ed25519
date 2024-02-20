@@ -21,8 +21,31 @@ export const process = async (data, id) => {
       let latest = {}
 
       if (getDetails) {latest = JSON.parse(getDetails)}
-      if (data.name) {
-        latest.name = data.name
+      if (data.image || data.name) {
+        if (data.name) {
+          if (latest.name != data.name) {
+            
+            latest.name = data.name
+            setTimeout(() => {
+              const namesOnScreen = document.querySelectorAll('a#name' + opened.author.substring(0, 10))
+              for (const names of namesOnScreen) {
+                names.textContent = latest.name
+              }
+            }, 100)
+
+          } 
+        }
+        if (data.image) { 
+          if (latest.image != data.image) {
+            latest.image = data.image
+            setTimeout(() => {
+              const imagesOnScreen = document.querySelectorAll('img#image' + opened.author.substring(0, 10))
+              for (const image of imagesOnScreen) {
+                image.src = latest.image
+              }
+            }, 100)
+          }
+        }
         await cachekv.put(opened.author, JSON.stringify(latest))
       }
 

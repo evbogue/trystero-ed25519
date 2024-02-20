@@ -29,7 +29,18 @@ const input = h('input', {placeholder: 'What\'s your status?'})
 const sendbutton = h('button', {onclick: async () => {
   if (input.value) {
     const signed = await ed25519.sign(input.value)
-    trystero.send({type: 'latest', payload: signed})
+
+    const obj = {type: 'latest', payload: signed}
+
+    if (stat.name) {
+      obj.name = stat.name
+    }
+    if (stat.image) {
+      obj.image = stat.image
+    }
+
+    trystero.send(obj)
+
     stat.latest = signed
     await cachekv.put(pubkey, JSON.stringify(stat))
     const opened = await ed25519.open(signed)
@@ -51,6 +62,14 @@ screen.appendChild(scroller)
 screen.appendChild(contacts)
 scroller.appendChild(topp)
 
+const deleteEverything = h('button', {onclick: () => {
+  cachekv.clear()
+  ed25519.deletekey()
+  location.reload() 
+}, style: 'background: orange; position: fixed; bottom: 0;'}, ['Delete Local DB'])
+
+screen.appendChild(deleteEverything)
+
 const composer = h('div', [
   currentStatus,
   h('div', {classList: 'message'}, [
@@ -60,6 +79,7 @@ const composer = h('div', [
     sendbutton
   ])
 ])
+
 
 contacts.appendChild(composer)
 
@@ -84,6 +104,9 @@ trystero.join(() => {
   }
   if (stat.name) {
     obj.name = stat.name
+  }
+  if (stat.image) {
+    obj.image = stat.image
   } 
   if (stat.latest || stat.name) {
     trystero.send(obj)
