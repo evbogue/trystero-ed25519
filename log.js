@@ -13,8 +13,6 @@ if (!getStore) {
   store = []
 }
 
-const opened = new Map()
-
 export const log = {}
 
 log.add = async (raw) => {
@@ -24,7 +22,7 @@ log.add = async (raw) => {
   }
 }
 
-log.getAll = async () => {
+log.getAll = () => {
   if (store)
   return store
 }

@@ -43,6 +43,7 @@ const sendbutton = h('button', {onclick: async () => {
 const topp = h('div', {id: 'topp', classList: 'message'}, ['Messages'])
 const screen = h('div', {id: 'screen'})
 const scroller = h('div', {id: 'scroller'})
+
 const contacts = h('div', {id: 'contacts'})
 
 document.body.appendChild(screen)
@@ -50,14 +51,20 @@ screen.appendChild(scroller)
 screen.appendChild(contacts)
 scroller.appendChild(topp)
 
-const composer = h('div', {classList: 'message'}, [
+const composer = h('div', [
   currentStatus,
-  input,
-  h('br'),
-  sendbutton
+  h('div', {classList: 'message'}, [
+    h('pre', [pubkey]),
+    input,
+    h('br'),
+    sendbutton
+  ])
 ])
 
 contacts.appendChild(composer)
+
+composer.after(h('div', {classList: 'message'}, ['Online now']))
+
 
 if (store.length) {
   for (const raw of store) {

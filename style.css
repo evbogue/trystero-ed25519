@@ -4,7 +4,9 @@ body {
   color: #222;
 }
 
-input { width: 90%;}
+input { width: 90%; padding: 5px; background: #fafafa; border: none;}
+
+button { border: none; color: #333; border-radius: 5px; padding: 5px;}
 
 #scroller {
   width: 66%;

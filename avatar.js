@@ -28,6 +28,7 @@ export const avatar = async (id) => {
       h('button', {onclick: async () => {
         if (input.value) {
           stat.name = input.value
+          link.textContent = input.value
           await cachekv.put(pubkey, JSON.stringify(stat))
           const namesOnScreen = document.querySelectorAll('a#name' + id.substring(0, 10))
           for (const names of namesOnScreen) {
