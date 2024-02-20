@@ -77,10 +77,18 @@ const render = async (msg) => {
   return div
 }
 
-let defaultMessage = {author: pubkey, text: 'Hello world!', timestamp: Date.now()}
+let defaultMessage = {author: pubkey, text: 'Hello world! This is the Trystero-Ed25519 demo app. To get started update your status below. Edit your name. Or upload a photo.', timestamp: Date.now()}
 console.log(stat.latest)
 
-const openedLatest = await ed25519.open(stat.latest) || defaultMessage
+let openedLatest = defaultMessage
+
+if (stat.latest) {
+  const openedStoredLatest = await ed25519.open(stat.latest)
+  if (openedStoredLatest) {
+    openedLatest = openedStoredLatest
+  }
+} 
+
 
 const currentStatus = await render(openedLatest)
 
@@ -168,8 +176,6 @@ trystero.onmessage(async (data, id) => {
 })
 
 trystero.join(id => {
-  //const contact = h('div', {classList: 'message', id: id}, [id])
-  //contacts.appendChild(contact)
   const obj = {type: 'latest'}
   if (stat.latest) {
     obj.payload = stat.latest
