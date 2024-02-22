@@ -20,8 +20,9 @@ export const avatar = async (id) => {
       const file = e.srcElement.files[0]
       const reader = new FileReader()
       reader.onloadend = async () => {
-        img.src = reader.result
+        img.src = await reader.result
         const imagesOnScreen = document.querySelectorAll('img#image' + id.substring(0, 10))
+          
           for (const image of imagesOnScreen) {
             image.src = img.src
           }
