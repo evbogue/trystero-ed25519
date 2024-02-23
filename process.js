@@ -27,7 +27,7 @@ export const process = async (data, id) => {
             
             latest.name = data.name
             setTimeout(() => {
-              const namesOnScreen = document.querySelectorAll('a#name' + opened.author.substring(0, 10))
+              const namesOnScreen = document.getElementsByClassName('name' + opened.author)
               for (const names of namesOnScreen) {
                 names.textContent = latest.name
               }
@@ -39,7 +39,7 @@ export const process = async (data, id) => {
           if (latest.image != data.image) {
             latest.image = data.image
             setTimeout(() => {
-              const imagesOnScreen = document.querySelectorAll('img#image' + opened.author.substring(0, 10))
+              const imagesOnScreen = document.getElementsByClassName('image' + opened.author)
               for (const image of imagesOnScreen) {
                 image.src = latest.image
               }

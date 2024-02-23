@@ -21,11 +21,10 @@ export const avatar = async (id) => {
       const reader = new FileReader()
       reader.onloadend = async () => {
         img.src = await reader.result
-        const imagesOnScreen = document.querySelectorAll('img#image' + id.substring(0, 10))
-          
-          for (const image of imagesOnScreen) {
-            image.src = img.src
-          }
+        const imagesOnScreen = document.getElementsByClassName('image' + id)
+        for (const image of imagesOnScreen) {
+          image.src = img.src
+        }
         stat.image = img.src 
         stat.type = 'latest'
         stat.payload = stat.latest
@@ -39,10 +38,9 @@ export const avatar = async (id) => {
   const img = vb(decode(id), 256) 
 
 
-  img.classList = 'avatar'
-  img.id = 'image' + id.substring(0, 10)
+  img.classList = 'avatar image' + id
 
-  const link = h('a', {href: '#', id: 'name' + id.substring(0, 10)}, [id.substring(0, 7) + '...'])
+  const link = h('a', {href: '#', classList: 'name' + id}, [id.substring(0, 7) + '...'])
 
   const getInfo = await cachekv.get(id)
 
@@ -81,7 +79,7 @@ export const avatar = async (id) => {
           stat.type = 'latest'
           stat.payload = stat.latest
           trystero.send(stat)
-          const namesOnScreen = document.querySelectorAll('a#name' + id.substring(0, 10))
+          const namesOnScreen = document.getElementsByClassName('name' + id)
           for (const names of namesOnScreen) {
             names.textContent = input.value
           }
